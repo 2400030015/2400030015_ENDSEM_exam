@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List Filter Output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        #studentList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #studentList li {
+            background: #e9f7ff;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            border-left: 5px solid #007bff;
+        }
+        .name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .roll {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Live Student Search</h2>
+        
+        <input type="text" id="searchInput" placeholder="Search by name or roll number...">
+        <ul id="studentList">
+            </ul>
+    </div>
+
+    <script>
+        const students = [
+            { name: "Alice Johnson", rollNumber: "R1001" },
+            { name: "Bob Smith", rollNumber: "R1002" },
+            { name: "Charlie Brown", rollNumber: "R1003" },
+            { name: "David Wilson", rollNumber: "R1004" },
+            { name: "Eve Davis", rollNumber: "R1005" },
+            { name: "Frank Miller", rollNumber: "R1006" },
+            { name: "Grace Lee", rollNumber: "R1007" },
+            { name: "Henry Clark", rollNumber: "R1008" },
+            { name: "Ivy Hall", rollNumber: "R1009" },
+            { name: "Jack Baker", rollNumber: "R1010" }
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const studentList = document.getElementById('studentList');
+
+        function renderStudents(filteredStudents) {
+            studentList.innerHTML = ''; 
+            
+            if (filteredStudents.length === 0) {
+                studentList.innerHTML = '<li>No students found.</li>';
+                return;
+            }
+
+            filteredStudents.forEach(student => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = 
+                    `<span class="name">${student.name}</span>
+                     <span class="roll">(${student.rollNumber})</span>`;
+                studentList.appendChild(listItem);
+            });
+        }
+
+        function filterStudents() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            const filtered = students.filter(student => {
+                const name = student.name.toLowerCase();
+                const roll = student.rollNumber.toLowerCase();
+
+                return name.includes(searchTerm) || roll.includes(searchTerm);
+            });
+
+            renderStudents(filtered);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStudents(students);
+        });
+
+        searchInput.addEventListener('input', filterStudents);
+    </script>
+
+</body>
+</html>
